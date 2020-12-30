@@ -20,7 +20,7 @@ function Home() {
   return (
     <section>
       <Typography variant="h3" component="strong" display="block">
-        Asta online di beneficenza
+        Asta di beneficenza
       </Typography>
       <Items page={page} />
     </section>

@@ -8,8 +8,8 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 
 // Create an http link:
 const httpLink = new HttpLink({
-  // uri: "https://java-auction-server.herokuapp.com/"
-  uri: "http://localhost:8080/graphql"
+  uri: "/graphql"
+  // uri: "http://localhost:8080/graphql"
 })
 
 // // Create a WebSocket link:
