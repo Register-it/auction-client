@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
   info: {
     display: "flex",
     flexDirection: "row",
+    "@media (max-width: 680px)": {
+      flexDirection: "column",
+    },
   },
   offers: {
     marginLeft: theme.spacing(),
@@ -72,7 +75,7 @@ export default function Item() {
   if (loading) {
     return <ItemLoading />;
   }
-  
+
   if (error) {
     return <Error />;
   }
@@ -96,7 +99,11 @@ export default function Item() {
                 )}`}
               </Typography>
 
-              <MakeAnOffer price={currentPrice} offers={bidsNumber} />
+              <MakeAnOffer
+                price={currentPrice}
+                offers={bidsNumber}
+                itemId={id}
+              />
             </CardContent>
           </div>
         </div>

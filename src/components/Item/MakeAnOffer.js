@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+
+import { usePlaceBid } from "../../api/useAuctionApi";
+import ButtonWithLoader from "../ButtonWithLoader";
+import { Link } from "react-router-dom";
+import { routes } from "../../routes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   textField: { margin: theme.spacing() },
-  button: { margin: theme.spacing(), width: 257, height: 56 },
+  button: {
+    margin: theme.spacing(),
+    width: 257,
+    height: 56,
+    position: "relative",
+  },
   info: {
     display: "flex",
     flexDirection: "row",
@@ -23,20 +32,34 @@ const useStyles = makeStyles((theme) => ({
   offers: {
     marginLeft: theme.spacing(),
   },
+  progress: {
+    position: "absolute",
+    top: 8,
+    left: "45%",
+  },
 }));
 
-export default function MakeAnOffer({ price, offers }) {
+export default function MakeAnOffer({ price, offers, itemId }) {
   const classes = useStyles();
+  const [amount, setAmount] = useState("");
+
+  const { placeBid, error, loading } = usePlaceBid(itemId);
+
+  function onAmountChangeHandler(event) {
+    setAmount(event.target.value);
+  }
+
   function onSubmitHandler(event) {
     event.preventDefault();
+    if (amount === "") {
+      return;
+    }
+    placeBid(amount);
   }
   return (
     <div className={classes.root}>
-      <div >
-        <Typography
-          className={classes.title}
-          component="strong"
-        >
+      <div>
+        <Typography className={classes.title} component="strong">
           EUR {price}
         </Typography>
         <Typography
@@ -45,7 +68,9 @@ export default function MakeAnOffer({ price, offers }) {
           color="textSecondary"
           component="span"
         >
-          {offers} offers
+          <Link className="visible-link" to={routes.BIDS.path.replace(":id", itemId)}>
+            {offers} offers
+          </Link>
         </Typography>
       </div>
       <form onSubmit={onSubmitHandler}>
@@ -54,17 +79,21 @@ export default function MakeAnOffer({ price, offers }) {
           label="inserisci l'offerta massima"
           variant="outlined"
           autoComplete="off"
-          size="11"
           maxLength="10"
-          color="secondary"
+          color="primary"
+          value={amount}
+          onChange={onAmountChangeHandler}
+          disabled={loading}
         />
-        <Button
+        <ButtonWithLoader
           variant="contained"
-          color="secondary"
+          color="primary"
+          type="submit"
           className={classes.button}
+          loading={loading}
         >
           Fai un'offerta
-        </Button>
+        </ButtonWithLoader>
       </form>
     </div>
   );

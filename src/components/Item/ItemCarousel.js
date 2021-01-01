@@ -11,13 +11,15 @@ import Slide from "@material-ui/core/Slide";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 225,
+    "@media (max-width: 680px)": {
+      minWidth: "100%",
+    },
   },
   cover: {
     width: 225,
     height: 169,
     "@media (max-width: 680px)": {
-      maxHeight: 80,
-      margin: theme.spacing(),
+      width: "100%",
     },
   },
   toolbar: {

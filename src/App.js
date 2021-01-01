@@ -6,10 +6,10 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./apolloClient";
 
-import Item from "./components/Item/Item";
 import ScrollToTop from "./layout/ScrollToTop";
-import Home from "./components/Home/Home";
 import AppContainer from "./layout/AppContainer";
+import { withStore } from "react-context-hook";
+import { routes } from "./routes";
 
 function App() {
   return (
@@ -19,8 +19,14 @@ function App() {
         <BrowserRouter>
           <AppContainer>
             <ScrollToTop />
-            <Route path="/" component={Home} exact />
-            <Route path="/:slug-:id" component={Item} exact />
+            {Object.keys(routes).map((key) => (
+              <Route
+                path={routes[key].path}
+                component={routes[key].component}
+                exact={routes[key].exact}
+                key={routes[key].path}
+              />
+            ))}
           </AppContainer>
         </BrowserRouter>
       </ApolloProvider>
@@ -28,4 +34,8 @@ function App() {
   );
 }
 
-export default App;
+export default withStore(
+  App,
+  {},
+  { logging: process.env.NODE_ENV === "development" }
+);

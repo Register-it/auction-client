@@ -34,8 +34,14 @@ img {
   max-width: 100%;
 }
 
+a,
 .link-normal,
 .link-normal:visited {
   color: inherit;
   text-decoration: none;
+}
+
+.visible-link {
+  text-decoration: underline;
+  color: blue;
 }

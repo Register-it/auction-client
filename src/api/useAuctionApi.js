@@ -1,5 +1,8 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { useHistory } from "react-router-dom";
+import { routes } from "../routes";
+import { useLoggedUser } from "./useLoginApi";
 
 export const GET_ITEMS = gql`
   query getItems($page: Int, $size: Int) {
@@ -74,4 +77,22 @@ export function useGetItem(id) {
     item = data.item;
   }
   return { loading, item, error };
+}
+
+export function usePlaceBid(itemId) {
+  const user = useLoggedUser();
+  const history = useHistory();
+
+  function placeBid(amount) {
+    if (!user) {
+      history.push(routes.LOGIN.path);
+      return;
+    }
+    //TODO perform the mutation
+  }
+
+  return {
+    loading: false,
+    placeBid,
+  };
 }
