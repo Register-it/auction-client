@@ -51,9 +51,6 @@ export default function MakeAnOffer({ price, offers, itemId }) {
 
   function onSubmitHandler(event) {
     event.preventDefault();
-    if (amount === "") {
-      return;
-    }
     placeBid(amount);
   }
   return (
@@ -68,7 +65,10 @@ export default function MakeAnOffer({ price, offers, itemId }) {
           color="textSecondary"
           component="span"
         >
-          <Link className="visible-link" to={routes.BIDS.path.replace(":id", itemId)}>
+          <Link
+            className="visible-link"
+            to={routes.BIDS.path.replace(":id", itemId)}
+          >
             {offers} offers
           </Link>
         </Typography>

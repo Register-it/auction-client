@@ -45,6 +45,15 @@ export default function Items({ page }) {
       {items.map((item) => (
         <ItemPreview item={item} key={item.id} />
       ))}
+      <Pagination
+        count={Math.floor(totalElements / resultPerPage)}
+        showFirstButton={!isFirst}
+        showLastButton={!isLast}
+        hideNextButton={isLast}
+        size="medium"
+        page={page}
+        onChange={handlePageChange}
+      />
     </section>
   );
 }

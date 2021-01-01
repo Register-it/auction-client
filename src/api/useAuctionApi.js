@@ -88,6 +88,9 @@ export function usePlaceBid(itemId) {
       history.push(routes.LOGIN.path);
       return;
     }
+    if (amount === "") {
+      return;
+    }
     //TODO perform the mutation
   }
 
