@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { makeStyles } from "@material-ui/core/styles"
-import Container from "@material-ui/core/Container"
-import Typography from "@material-ui/core/Typography"
-import Link from "@material-ui/core/Link"
-import { Link as InternalLink } from "react-router-dom"
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import { Link as InternalLink } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -16,23 +16,24 @@ function Copyright() {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
   footer: {
+    marginTop: theme.spacing(2),
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6, 0)
-  }
-}))
+    padding: theme.spacing(6, 0),
+  },
+}));
 
 export default function Footer(props) {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <footer className={classes.footer}>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          <InternalLink to="/">GraphQL Demo Blog</InternalLink>
+          <InternalLink to="/">Auctions</InternalLink>
         </Typography>
         <Typography
           variant="subtitle1"
@@ -49,10 +50,10 @@ export default function Footer(props) {
         <Copyright />
       </Container>
     </footer>
-  )
+  );
 }
 
 Footer.propTypes = {
   description: PropTypes.string,
-  title: PropTypes.string
-}
+  title: PropTypes.string,
+};

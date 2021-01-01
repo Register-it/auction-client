@@ -1,11 +1,11 @@
 import React from "react";
-import ItemPreview from "../Item/ItemPreview";
-import ItemPreviewLoader from "../Item/ItemPreviewLoader";
+import ItemPreview from "./ItemPreview";
+import ItemPreviewLoader from "./ItemPreviewLoader";
 
 import Error from "../Error/Error";
 import { Pagination, Skeleton } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
-import useSearch from "./useSearchApi";
+import {useSearch} from "../../api/useAuctionApi";
 
 export default function Items({ page }) {
   const history = useHistory();
