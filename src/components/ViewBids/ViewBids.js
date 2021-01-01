@@ -8,7 +8,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ItemPreview from "../Home/ItemPreview";
 import MakeAnOffer from "../Item/MakeAnOffer";
 
@@ -24,6 +24,9 @@ export default function ViewBids() {
 
   return (
     <div>
+      <Link className="visible-link" to={`/item/${id}`}>
+        ← Torna alla descrizione dell'oggetto
+      </Link>
       <Typography variant="h4">Cronologia dell'offerta</Typography>
       <Paper className={classes.paper}>
         <div>

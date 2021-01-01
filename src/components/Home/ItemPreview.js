@@ -20,7 +20,7 @@ export default function ItemPreview({ item, small = false }) {
   } = item;
   return (
     <Card className={classes.root}>
-      <Link to={`/${toSlug(title)}-${id}`} className="link-normal">
+      <Link to={`/item/${id}`} className="link-normal">
         <CardMedia
           className={classes.cover}
           image={
@@ -30,7 +30,7 @@ export default function ItemPreview({ item, small = false }) {
         />
       </Link>
       <div className={small ? classes.detailsSmall : classes.details}>
-        <Link to={`/${toSlug(title)}-${id}`} className="link-normal">
+        <Link to={`/item/${id}`} className="link-normal">
           <CardHeader
             title={title}
             subheader={`scade il ${dayjs(auctionExpiration).format(
@@ -60,10 +60,6 @@ export default function ItemPreview({ item, small = false }) {
       </div>
     </Card>
   );
-}
-
-function toSlug(title) {
-  return title.replace(/[\W_]+/g, "_");
 }
 
 const useStyles = makeStyles((theme) => ({
