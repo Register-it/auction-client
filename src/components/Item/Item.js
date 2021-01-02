@@ -10,7 +10,6 @@ import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { useParams, useHistory } from "react-router-dom";
-import dayjs from "dayjs";
 
 import MakeAnOffer from "./MakeAnOffer";
 import ItemLoading from "./ItemLoading";
