@@ -43,7 +43,7 @@ export default function MakeAnOffer({ price, offers, itemId }) {
   const classes = useStyles();
   const [amount, setAmount] = useState("");
 
-  const { placeBid, error, loading } = usePlaceBid(itemId);
+  const { placeBid, loading } = usePlaceBid(itemId);
 
   function onAmountChangeHandler(event) {
     setAmount(event.target.value);
