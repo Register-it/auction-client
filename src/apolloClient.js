@@ -1,16 +1,16 @@
-import {ApolloClient} from "apollo-boost"
+import { ApolloClient } from "apollo-boost";
 // import { WebSocketLink } from "apollo-link-ws"
 
 // import { split } from "apollo-link"
-import { HttpLink } from "apollo-link-http"
+import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 // import { getMainDefinition } from "apollo-utilities"
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "/graphql"
+  uri: "/graphql",
   // uri: "http://localhost:8080/graphql"
-})
+});
 
 // // Create a WebSocket link:
 // const wsLink = new WebSocketLink({
@@ -38,7 +38,7 @@ const httpLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache()
-})
+  cache: new InMemoryCache(),
+});
 
-export default apolloClient
+export default apolloClient;

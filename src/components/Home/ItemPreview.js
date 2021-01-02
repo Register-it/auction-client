@@ -6,7 +6,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { CardHeader } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
+import AuctionExpiration from "../AuctionExpiration";
+import { routes } from "../../routes";
 
 export default function ItemPreview({ item, small = false }) {
   const classes = useStyles();
@@ -33,9 +34,11 @@ export default function ItemPreview({ item, small = false }) {
         <Link to={`/item/${id}`} className="link-normal">
           <CardHeader
             title={title}
-            subheader={`scade il ${dayjs(auctionExpiration).format(
-              "DD MMM YYYY HH:mm:ss"
-            )}`}
+            subheader={
+              <>
+                Scadenza: <AuctionExpiration date={auctionExpiration} />
+              </>
+            }
             className={classes.header}
           />
         </Link>
@@ -54,7 +57,12 @@ export default function ItemPreview({ item, small = false }) {
             component="span"
             display="block"
           >
-            {bidsNumber} offers
+            <Link
+              className="visible-link"
+              to={routes.BIDS.path.replace(":id", id)}
+            >
+              {bidsNumber} offers
+            </Link>
           </Typography>
         </CardContent>
       </div>

@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import MakeAnOffer from "./MakeAnOffer";
 import ItemLoading from "./ItemLoading";
 import Error from "../Error/Error";
+import AuctionExpiration from "../AuctionExpiration";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,9 +95,7 @@ export default function Item() {
                 {title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {`scade il ${dayjs(auctionExpiration).format(
-                  "DD MMM YYYY HH:mm:ss"
-                )}`}
+                Scadenza: <AuctionExpiration date={auctionExpiration} />
               </Typography>
 
               <MakeAnOffer
