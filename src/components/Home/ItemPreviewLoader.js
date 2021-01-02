@@ -1,43 +1,43 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import { CardHeader } from "@material-ui/core"
-import Skeleton from "@material-ui/lab/Skeleton"
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { CardHeader } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "inline-flex",
     margin: theme.spacing(),
-    width: "100%"
+    width: "100%",
   },
   details: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   header: {
     "@media (max-width: 680px)": {
-      padding: theme.spacing()
-    }
+      padding: theme.spacing(),
+    },
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
   },
   cover: {
     width: 151,
     height: 151,
     "@media (max-width: 680px)": {
       maxHeight: 80,
-      margin: theme.spacing()
-    }
-  }
-}))
+      margin: theme.spacing(),
+    },
+  },
+}));
 
 export default function ItemPreviewLoader() {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <Card className={classes.root}>
-        <Skeleton animation="wave" width={225} height={169} />
+      <Skeleton animation="wave" width={225} height={169} />
       <div className={classes.details}>
         <CardHeader
           title={<Skeleton animation="wave" width={300} height={32} />}
@@ -47,8 +47,8 @@ export default function ItemPreviewLoader() {
         <CardContent>
           <Skeleton animation="wave" width={300} height={32} />
           <Skeleton animation="wave" width={300} height={24} />
-          </CardContent>
+        </CardContent>
       </div>
     </Card>
-  )
+  );
 }

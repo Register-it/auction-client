@@ -39,6 +39,16 @@ export const GET_ITEM = gql`
     }
   }
 `;
+export const GET_BIDS = gql`
+  query getBids($itemId: ID!) {
+    bids(itemId: $itemId) {
+      id
+      username
+      amount
+      dateTime
+    }
+  }
+`;
 
 const LIMIT = 15;
 
@@ -66,17 +76,39 @@ export function useSearch(page) {
 }
 
 export function useGetItem(id) {
-  const { loading, data, error } = useQuery(GET_ITEM, {
+  let { loading, data, error } = useQuery(GET_ITEM, {
     variables: {
       id,
     },
   });
 
+  let loaded = false;
+
   let item = {};
   if (data) {
-    item = data.item;
+    if (data.item === null) {
+      error = "Oggetto non trovato";
+    } else {
+      item = data.item;
+      loaded = true;
+    }
   }
-  return { loading, item, error };
+  return { loading, item, error, loaded };
+}
+
+export function useGetBids(itemId) {
+  let { loading, data, error } = useQuery(GET_BIDS, {
+    variables: {
+      itemId,
+    },
+  });
+  let loaded = false;
+  let bids = [];
+  if (data) {
+    bids = data.bids;
+    loaded = true;
+  }
+  return { loading, bids, error, loaded };
 }
 
 export function usePlaceBid(itemId) {

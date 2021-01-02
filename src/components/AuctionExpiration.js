@@ -15,12 +15,13 @@ export default function AuctionExpiration({ date }) {
 
   return (
     <span>
-      <strong>
-        <small>{dayjs(date).format("DD MMM YYYY HH:mm:ss")}</small>
-      </strong>{" "}
       {days > 0 && `${days} giorni `}
       {hours > 0 && `${hours} ore `}
-      {minutes} minuti {days === 0 && `${seconds} secondi`}
+      {minutes} minuti {days === 0 && `${seconds} secondi`}(
+      <strong>
+        <small>{dayjs(date).format("DD MMM YYYY HH:mm:ss")}</small>
+      </strong>
+      )
     </span>
   );
 }
