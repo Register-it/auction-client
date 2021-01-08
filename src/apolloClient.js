@@ -1,9 +1,11 @@
 import { ApolloClient } from "apollo-boost";
 // import { WebSocketLink } from "apollo-link-ws"
-
+import gql from "graphql-tag";
 // import { split } from "apollo-link"
-import { HttpLink } from "apollo-link-http";
+import { from, HttpLink } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { hasAuthenticationError } from "./api/ErrorHandler";
 // import { getMainDefinition } from "apollo-utilities"
 
 // Create an http link:
@@ -36,9 +38,19 @@ const httpLink = new HttpLink({
 //   httpLink
 // )
 
+const erroLink = onError(({ graphQLErrors, operation }) => {
+  hasAuthenticationError(graphQLErrors, operation);
+});
+
+const link = from([erroLink, httpLink]);
+
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: link,
   cache: new InMemoryCache(),
+  connectToDevTools: process.env.NODE_ENV === "development",
+  typeDefs: gql`
+    type Currency
+  `,
 });
 
 export default apolloClient;

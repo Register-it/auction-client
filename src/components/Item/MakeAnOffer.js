@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
-import { usePlaceBid } from "../../api/useAuctionApi";
+import { usePlaceBid } from "../../api/AuctionApi";
 import ButtonWithLoader from "../ButtonWithLoader";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";

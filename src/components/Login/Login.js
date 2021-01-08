@@ -6,9 +6,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { useLoginApi } from "../../api/useLoginApi";
+import { useLoginApi } from "../../api/LoginApi";
 import ButtonWithLoader from "../ButtonWithLoader";
 import { Alert } from "@material-ui/lab";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,15 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function Login() {
   const classes = useStyles();
-
-  const { performLogin, loading, error } = useLoginApi();
 
   const [state, setState] = useState({
     username: "",
     password: "",
   });
+  const { performLogin, loading, errors } = useLoginApi();
+
 
   function onChangeHandler(event) {
     const newState = {
@@ -105,7 +106,7 @@ export default function SignIn() {
         >
           Sign In
         </ButtonWithLoader>
-        {error && <Alert severity="warning">{error}</Alert>}
+        {errors && <Alert severity="warning">{errors.join(". ")}</Alert>}
       </form>
     </div>
   );

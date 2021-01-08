@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Divider,
   IconButton,
   makeStyles,
@@ -9,7 +10,8 @@ import {
 import { AccountCircle } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLoggedUser, useLogout } from "../api/useLoginApi";
+import { useLoadUser, useLogout } from "../api/LoginApi";
+import ButtonWithLoader from "../components/ButtonWithLoader";
 import { routes } from "../routes";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserInfo() {
   const classes = useStyles();
-  const user = useLoggedUser();
+  const { user, loading } = useLoadUser();
+  if (loading) {
+    return <CircularProgress color="primary" className={classes.progress} />;
+  }
   if (user) {
     return <UserPanel user={user} />;
   } else {
@@ -37,7 +42,7 @@ export default function UserInfo() {
 function UserPanel({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const logout = useLogout();
+  const { logout, loading } = useLogout();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,7 +84,12 @@ function UserPanel({ user }) {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <Divider />
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+
+        <MenuItem >
+          <ButtonWithLoader color="primary" variant="contained"  onClick={handleLogout} loading={loading}>
+            Logout
+          </ButtonWithLoader>
+        </MenuItem>
       </Menu>
     </div>
   );

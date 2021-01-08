@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://java-auction-server.herokuapp.com/",
   "dependencies": {
+    "@apollo/client": "^3.3.6",
     "@apollo/react-hooks": "^3.1.5",
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",

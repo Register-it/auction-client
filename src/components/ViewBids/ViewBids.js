@@ -11,7 +11,7 @@ import { Skeleton } from "@material-ui/lab";
 import dayjs from "dayjs";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetBids, useGetItem } from "../../api/useAuctionApi";
+import { useGetBids, useGetItem } from "../../api/AuctionApi";
 import AuctionExpiration from "../AuctionExpiration";
 import Error from "../Error/Error";
 import ItemPreview from "../Home/ItemPreview";

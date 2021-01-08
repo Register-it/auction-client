@@ -10,6 +10,8 @@ import ScrollToTop from "./layout/ScrollToTop";
 import AppContainer from "./layout/AppContainer";
 import { withStore } from "react-context-hook";
 import { routes } from "./routes";
+import AppNotification from "./components/Notification/AppNotification";
+import LoginModal from "./components/Login/LoginModal";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
                 key={routes[key].path}
               />
             ))}
+            <AppNotification />
+            <LoginModal />
           </AppContainer>
         </BrowserRouter>
       </ApolloProvider>

@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import BackIcon from "@material-ui/icons/ArrowBackIos";
-import { useGetItem } from "../../api/useAuctionApi";
+import { useGetItem } from "../../api/AuctionApi";
 import HtmlPageMetadata from "../HtmlPageMetadata";
 import ItemCarousel from "./ItemCarousel";
 import Card from "@material-ui/core/Card";

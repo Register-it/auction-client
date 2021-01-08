@@ -1,8 +1,6 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { useHistory } from "react-router-dom";
-import { routes } from "../routes";
-import { useLoggedUser } from "./useLoginApi";
+import { useRequireLoggedUser } from "./LoginApi";
 
 export const GET_ITEMS = gql`
   query getItems($page: Int, $size: Int) {
@@ -46,6 +44,14 @@ export const GET_BIDS = gql`
       username
       amount
       dateTime
+    }
+  }
+`;
+export const PLACE_BID = gql`
+  mutation PlaceBid($itemId: ID!, $amount: Currency!) {
+    bid(itemId: $itemId, amount: $amount) {
+      id
+      amount
     }
   }
 `;
@@ -112,22 +118,29 @@ export function useGetBids(itemId) {
 }
 
 export function usePlaceBid(itemId) {
-  const user = useLoggedUser();
-  const history = useHistory();
+  // const requireUser = useRequireLoggedUser();
+
+  const [placeBidMutation, { loading, error, data }] = useMutation(PLACE_BID, {
+    fetchPolicy: "no-cache",
+    onError: () => {},
+  });
 
   function placeBid(amount) {
-    if (!user) {
-      history.push(routes.LOGIN.path);
-      return;
-    }
+    // requireUser();
     if (amount === "") {
       return;
     }
-    //TODO perform the mutation
+    placeBidMutation({
+      variables: {
+        itemId,
+        amount: 9.45,
+      },
+    });
   }
 
   return {
-    loading: false,
+    loading,
+    error,
     placeBid,
   };
 }
