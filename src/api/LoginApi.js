@@ -67,9 +67,11 @@ export function useLogout() {
 
 export function useLoadUser(lazy = false) {
   const [user, setUser] = useGetAndSet(Store.LOGGED_USER);
+  const setAuthenticated = useDeleteStoreValue(Store.NOT_AUTHENTICATED);
   const [getUser, { loading, error, called }] = useLazyQuery(ME, {
     fetchPolicy: "no-cache",
     onCompleted: (data) => {
+      setAuthenticated();
       setUser(data.me);
     },
   });
@@ -97,7 +99,7 @@ export function useRequireLoggedUser() {
   };
 }
 
-export function useLoginApi() {
+export function useLoginApi(redirectAfterLogin = true) {
   const {
     getUser,
     loading: getUserLoading,
@@ -128,7 +130,7 @@ export function useLoginApi() {
   const history = useHistory();
   const previousPage = useStoreValue(Store.PREVIOUS_PAGE) || routes.HOME.path;
   useEffect(() => {
-    if (user) {
+    if (user && redirectAfterLogin) {
       history.push(previousPage);
     }
   });

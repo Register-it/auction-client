@@ -15,6 +15,7 @@ import MakeAnOffer from "./MakeAnOffer";
 import ItemLoading from "./ItemLoading";
 import Error from "../Error/Error";
 import AuctionExpiration from "../AuctionExpiration";
+import WatchItem from "./WatchItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,6 +103,7 @@ export default function Item() {
                 offers={bidsNumber}
                 itemId={id}
               />
+              <WatchItem itemId={id} />
             </CardContent>
           </div>
         </div>

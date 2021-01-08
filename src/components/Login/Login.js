@@ -31,15 +31,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login({ withRedirect = true }) {
   const classes = useStyles();
 
   const [state, setState] = useState({
     username: "",
     password: "",
   });
-  const { performLogin, loading, errors } = useLoginApi();
-
+  const { performLogin, loading, errors } = useLoginApi(withRedirect);
 
   function onChangeHandler(event) {
     const newState = {

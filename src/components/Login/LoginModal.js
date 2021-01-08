@@ -69,7 +69,7 @@ export default function LoginModal() {
         A logged user is required, please login
       </DialogTitle>
       <DialogContent dividers>
-        <Login />
+        <Login withRedirect={false} />
       </DialogContent>
     </Dialog>
   );

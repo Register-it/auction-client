@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import { from, HttpLink } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { hasAuthenticationError } from "./api/ErrorHandler";
+import { checkIfShouldShowLogin } from "./api/ErrorHandler";
 // import { getMainDefinition } from "apollo-utilities"
 
 // Create an http link:
@@ -39,7 +39,7 @@ const httpLink = new HttpLink({
 // )
 
 const erroLink = onError(({ graphQLErrors, operation }) => {
-  hasAuthenticationError(graphQLErrors, operation);
+  checkIfShouldShowLogin(graphQLErrors, operation);
 });
 
 const link = from([erroLink, httpLink]);

@@ -30,23 +30,15 @@ function getHumanReadableError(error) {
   });
 }
 
-export function hasAuthenticationError(graphQLErrors, operation) {
+export function hasAuthorizationError({ graphQLErrors } = {}) {
   if (graphQLErrors) {
-    const hasAuthError = graphQLErrors.some(
+    return graphQLErrors.some(
       (error) =>
         error.extensions &&
         error.extensions[ERROR_CODE_EXTENSION] === ERROR_CODES.UNAUTHORIZED
     );
-
-    const shouldPopupLogin = operationShouldPopupLogin(operation);
-
-    if (hasAuthError && shouldPopupLogin) {
-      store.set(
-        Store.NOT_AUTHENTICATED,
-        (store.getState()[Store.NOT_AUTHENTICATED] || 0) + 1
-      );
-    }
   }
+  return false;
 }
 
 const DONT_SHOW_LOGIN_OPERATIONS = [OPERATIONS.ME];
@@ -58,6 +50,20 @@ function operationShouldPopupLogin(operation) {
     return !found;
   }
   return true;
+}
+
+export function checkIfShouldShowLogin(graphQLErrors, operation) {
+  if (graphQLErrors) {
+    const hasAuthError = hasAuthorizationError({ graphQLErrors });
+    const shouldPopupLogin = operationShouldPopupLogin(operation);
+
+    if (hasAuthError && shouldPopupLogin) {
+      store.set(
+        Store.NOT_AUTHENTICATED,
+        (store.getState()[Store.NOT_AUTHENTICATED] || 0) + 1
+      );
+    }
+  }
 }
 
 export function parseGraphQLError(error /*ApolloError*/) {
