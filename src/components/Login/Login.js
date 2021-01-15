@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useLoginApi } from "../../api/LoginApi";
 import ButtonWithLoader from "../ButtonWithLoader";
 import { Alert } from "@material-ui/lab";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
