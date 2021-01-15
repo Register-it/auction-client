@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     justifyContent: "flex-end",
   },
+  fullScreen: {
+    maxWidth: "100%",
+    maxHeight: "90vh"
+  }
 }));
 
 export default function ItemCarousel({ images, thumbnails }) {
@@ -108,6 +112,7 @@ function ImagePreview({ thumbnails, images, index }) {
                 src={item}
                 key={item}
                 width="100%"
+                className={classes.fullScreen}
                 alt={"the item pic"}
               ></img>
             );

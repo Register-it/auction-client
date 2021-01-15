@@ -82,11 +82,18 @@ function UserPanel({ user }) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <Link to={routes.ME.path}>
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+        </Link>
         <Divider />
 
-        <MenuItem >
-          <ButtonWithLoader color="primary" variant="contained"  onClick={handleLogout} loading={loading}>
+        <MenuItem>
+          <ButtonWithLoader
+            color="primary"
+            variant="contained"
+            onClick={handleLogout}
+            loading={loading}
+          >
             Logout
           </ButtonWithLoader>
         </MenuItem>

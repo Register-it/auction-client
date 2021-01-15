@@ -2,7 +2,7 @@
   "name": "auction-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://java-auction-server.herokuapp.com/",
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@apollo/react-hooks": "^3.1.5",

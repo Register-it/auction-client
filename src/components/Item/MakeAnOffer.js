@@ -7,6 +7,7 @@ import { usePlaceBid } from "../../api/AuctionApi";
 import ButtonWithLoader from "../ButtonWithLoader";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ export default function MakeAnOffer({ price, offers, itemId }) {
   const classes = useStyles();
   const [amount, setAmount] = useState("");
 
-  const { placeBid, loading } = usePlaceBid(itemId);
+  const { placeBid, loading, error, bidPlaced } = usePlaceBid(itemId);
 
   function onAmountChangeHandler(event) {
     setAmount(event.target.value);
@@ -53,6 +54,7 @@ export default function MakeAnOffer({ price, offers, itemId }) {
     event.preventDefault();
     placeBid(amount);
   }
+
   return (
     <div className={classes.root}>
       <div>
@@ -92,9 +94,19 @@ export default function MakeAnOffer({ price, offers, itemId }) {
           className={classes.button}
           loading={loading}
         >
-          Fai un'offerta
+          Fai un'{bidPlaced && `altra `}offerta
         </ButtonWithLoader>
       </form>
+      {bidPlaced && <Alert severity="success">Offerta piazzata</Alert>}
+      {error && <Error errors={error} />}
     </div>
   );
+}
+
+function Error({ errors = [] }) {
+  return errors.map((message, index) => (
+    <Alert severity="warning" key={`error-${index}`}>
+      {message}
+    </Alert>
+  ));
 }

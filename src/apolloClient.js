@@ -2,7 +2,7 @@ import { ApolloClient } from "apollo-boost";
 // import { WebSocketLink } from "apollo-link-ws"
 import gql from "graphql-tag";
 // import { split } from "apollo-link"
-import { from, HttpLink } from "@apollo/client";
+import { defaultDataIdFromObject, from, HttpLink } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { checkIfShouldShowLogin } from "./api/ErrorHandler";
@@ -46,7 +46,13 @@ const link = from([erroLink, httpLink]);
 
 const apolloClient = new ApolloClient({
   link: link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: true,
+    dataIdFromObject: function (responseObject) {
+      // console.log(responseObject.__typename, responseObject.id);
+      return defaultDataIdFromObject(responseObject);
+    },
+  }),
   connectToDevTools: process.env.NODE_ENV === "development",
   typeDefs: gql`
     type Currency

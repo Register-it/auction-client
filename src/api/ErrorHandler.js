@@ -9,13 +9,15 @@ const ERROR_CODES = {
   AUCTION_EXPIRED: "AUCTION_EXPIRED",
   HIGHER_BID_EXISTS: "HIGHER_BID_EXISTS",
   INVALID_BID: "INVALID_BID",
+  INVALID_CREDENTIALS: "INVALID_CREDENTIALS"
 };
 
 const ERROR_CODES_MESSAGES = {
   UNAUTHORIZED: "Username o password non validi",
   AUCTION_EXPIRED: "L'asta è scaduta",
-  HIGHER_BID_EXISTS: "La tua offerta è stat superata",
+  HIGHER_BID_EXISTS: "La tua offerta è stata superata",
   INVALID_BID: "Offerta non valida",
+  INVALID_CREDENTIALS: "Credenziali errate"
 };
 
 function getHumanReadableError(error) {
@@ -75,6 +77,6 @@ export function parseGraphQLError(error /*ApolloError*/) {
   if (graphQLErrors) {
     return getHumanReadableError(error);
   } else {
-    return "Unexpected error";
+    return ["Unexpected error"];
   }
 }

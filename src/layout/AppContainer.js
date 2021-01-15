@@ -89,10 +89,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   container: {
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     margin: "auto",
   },
   maxWidthMd: {
-    maxWidth: 680,
+    // maxWidth: 680,
   },
 }));

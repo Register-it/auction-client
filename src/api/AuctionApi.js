@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { useEffect } from "react";
-import { hasAuthorizationError } from "./ErrorHandler";
+import { useEffect, useState } from "react";
+import { hasAuthorizationError, parseGraphQLError } from "./ErrorHandler";
 import { useLoggedUser } from "./LoginApi";
 
 export const GET_ITEMS = gql`
@@ -219,29 +219,52 @@ export function useWatchItem(itemId) {
 }
 
 export function usePlaceBid(itemId) {
-  // const requireUser = useRequireLoggedUser();
+  const [bidPlaced, setBidPlaced] = useState(false);
 
   const [placeBidMutation, { loading, error }] = useMutation(PLACE_BID, {
     fetchPolicy: "no-cache",
     onError: () => {},
+    onCompleted: () => {
+      setBidPlaced(true);
+    },
+    refetchQueries: [
+      {
+        query: GET_ITEM,
+        variables: {
+          id: itemId,
+        },
+      },
+      {
+        query: GET_BIDS,
+        variables: {
+          itemId: itemId,
+        },
+      },
+    ],
   });
 
   function placeBid(amount) {
-    // requireUser();
     if (amount === "") {
       return;
     }
+    setBidPlaced(false);
     placeBidMutation({
       variables: {
         itemId,
-        amount: 9.45,
+        amount: parseAmount(amount),
       },
     });
   }
 
   return {
     loading,
-    error,
+    error: parseGraphQLError(error),
     placeBid,
+    bidPlaced,
   };
+}
+
+function parseAmount(amount) {
+  amount = amount.replace(",", ".");
+  return parseFloat(amount, 2);
 }
