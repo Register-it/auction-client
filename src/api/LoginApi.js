@@ -11,7 +11,7 @@ import { parseGraphQLError } from "./ErrorHandler";
 import { useEffect } from "react";
 import { routes } from "../routes";
 import { useHistory, useLocation } from "react-router-dom";
-import { useNotifications } from "../components/Notification/NotificationApi";
+import { useNotifications } from "./NotificationApi";
 
 export const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
@@ -51,7 +51,10 @@ export function useLogout() {
     fetchPolicy: "no-cache",
     onError: () => {
       console.warn("cannot logout on server");
-      addNotification("Cannot logout on the server!");
+      addNotification({
+        title: "Cannot logout on the server!",
+        type: "warning",
+      });
       deleteUser();
     },
     onCompleted: () => {

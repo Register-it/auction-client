@@ -10,4 +10,7 @@ export const routes = {
   ITEM: { path: "/item/:id", exact: true, component: Item },
   BIDS: { path: "/bids/:id", exact: true, component: ViewBids },
   ME: { path: "/me", exact: true, component: Me },
+  WATHED_ITEMS: { path: "/me/watched", exact: true, component: Me },
+  BIDDED_ITEMS: { path: "/me/bids", exact: true, component: Me },
+  AWARDED_ITEMS: { path: "/me/awarded", exact: true, component: Me },
 };

@@ -1,48 +1,47 @@
 import { ApolloClient } from "apollo-boost";
-// import { WebSocketLink } from "apollo-link-ws"
+import { WebSocketLink } from "@apollo/client/link/ws";
 import gql from "graphql-tag";
 // import { split } from "apollo-link"
-import { defaultDataIdFromObject, from, HttpLink } from "@apollo/client";
+import { defaultDataIdFromObject, from, split, HttpLink } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { checkIfShouldShowLogin } from "./api/ErrorHandler";
-// import { getMainDefinition } from "apollo-utilities"
+import { getMainDefinition } from "@apollo/client/utilities";
+
+const isDev = process.env.NODE_ENV === "development";
+const apiHost = isDev ? "localhost:8080" : "java-auction-server.herokuapp.com";
+const secure = isDev ? "" : "s";
+
+const wsLink = new WebSocketLink({
+  uri: `ws${secure}://${apiHost}/subscriptions`,
+  options: {
+    reconnect: true,
+  },
+});
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "/graphql",
-  // uri: "http://localhost:8080/graphql"
+  uri: `/graphql`,
+  credentials: "include",
 });
 
-// // Create a WebSocket link:
-// const wsLink = new WebSocketLink({
-//   // uri: `wss://java-auction-server.herokuapp.com/graphql`,
-//   uri: `ws://localhost:8080/graphql`,
-//   options: {
-//     reconnect: true
-//   }
-// })
-
-// // using the ability to split links, you can send data to each link
-// // depending on what kind of operation is being sent
-// const link = split(
-//   // split based on operation type
-//   ({ query }) => {
-//     const definition = getMainDefinition(query)
-//     return (
-//       definition.kind === "OperationDefinition" &&
-//       definition.operation === "subscription"
-//     )
-//   },
-//   wsLink,
-//   httpLink
-// )
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 const erroLink = onError(({ graphQLErrors, operation }) => {
   checkIfShouldShowLogin(graphQLErrors, operation);
 });
 
-const link = from([erroLink, httpLink]);
+const link = from([erroLink, splitLink]);
 
 const apolloClient = new ApolloClient({
   link: link,

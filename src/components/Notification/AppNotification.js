@@ -1,16 +1,16 @@
-import React from "react"
-import { useStore } from "react-context-hook"
-import { Store } from "../../api/Store"
+import React from "react";
+import { useStore } from "react-context-hook";
+import { Store } from "../../api/Store";
 
-import Notification from "./Notification"
-import { useNotifications } from "./NotificationApi"
+import Notification from "./Notification";
+import { useNotifications } from "../../api/NotificationApi";
 
 export default function AppNotification() {
-  const [notifications] = useStore(Store.NOTIFICATIONS, [])
-  const { removeNotification } = useNotifications()
+  const [notifications] = useStore(Store.NOTIFICATIONS, []);
+  const { removeNotification } = useNotifications();
 
   function onNotificationClosed(notification) {
-    removeNotification(notification)
+    removeNotification(notification);
   }
 
   return notifications.map(
@@ -23,5 +23,5 @@ export default function AppNotification() {
           onClose={onNotificationClosed}
         />
       )
-  )
+  );
 }

@@ -10,6 +10,7 @@ import {
 import { AccountCircle } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuctionNotification } from "../api/AuctionApi";
 import { useLoadUser, useLogout } from "../api/LoginApi";
 import ButtonWithLoader from "../components/ButtonWithLoader";
 import { routes } from "../routes";
@@ -39,10 +40,12 @@ export default function UserInfo() {
   }
 }
 
-function UserPanel({ user }) {
+function UserPanel() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { logout, loading } = useLogout();
+
+  useAuctionNotification();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

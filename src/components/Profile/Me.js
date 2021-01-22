@@ -1,7 +1,12 @@
 import { Avatar, CardHeader, makeStyles } from "@material-ui/core";
 import React, { useEffect } from "react";
-import { useLoggedUser, useRequireLoggedUser } from "../../api/LoginApi";
-import Navigation from "./Navigation";
+import {
+  useLoggedUser,
+  useLogout,
+  useRequireLoggedUser,
+} from "../../api/LoginApi";
+import ButtonWithLoader from "../ButtonWithLoader";
+import ProfilePage from "./ProfilePage";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -13,15 +18,19 @@ export default function Me() {
   const classes = useStyles();
   const requireLoggedUSer = useRequireLoggedUser();
   const user = useLoggedUser();
+  const { logout, loading } = useLogout();
   useEffect(() => {
     requireLoggedUSer();
   }, [user, requireLoggedUSer]);
   requireLoggedUSer();
-  console.log(user);
   if (!user) {
     return null;
   }
-  const { firstName, lastName, image, email } = user;
+  function handleLogout() {
+    logout();
+  }
+
+  const { firstName, lastName, image } = user;
   return (
     <section>
       <CardHeader
@@ -33,9 +42,19 @@ export default function Me() {
           ></Avatar>
         }
         title={`${firstName} ${lastName}`}
-        subheader={email}
+        subheader={
+          <ButtonWithLoader
+            color="secondary"
+            variant="outlined"
+            onClick={handleLogout}
+            loading={loading}
+            size="small"
+          >
+            Logout
+          </ButtonWithLoader>
+        }
       />
-        <Navigation />
+      <ProfilePage />
     </section>
   );
 }

@@ -1,8 +1,14 @@
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import {
+  useLazyQuery,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useEffect, useState } from "react";
 import { hasAuthorizationError, parseGraphQLError } from "./ErrorHandler";
 import { useLoggedUser } from "./LoginApi";
+import { useServerNotification } from "./NotificationApi";
 
 export const GET_ITEMS = gql`
   query getItems($page: Int, $size: Int) {
@@ -15,7 +21,6 @@ export const GET_ITEMS = gql`
         title
         id
         thumbnails(limit: 1)
-        images
         auctionExpiration
         currentPrice
         initialPrice
@@ -75,6 +80,58 @@ export const WATCH_ITEM = gql`
 export const UNWATCH_ITEM = gql`
   mutation Unatch($itemId: ID!) {
     unwatch(itemId: $itemId)
+  }
+`;
+
+export const NOTIFICATION_SUBSCRIPTION = gql`
+  subscription GetNotification {
+    auctionEvent {
+      bid {
+        id
+        username
+        amount
+        dateTime
+      }
+      item {
+        title
+        id
+        currentPrice
+        bidsNumber
+        watched
+        thumbnails
+      }
+      type
+    }
+  }
+`;
+
+const DASHBOARD_ITEMS_LIMIT = 4;
+
+export const USER_DASHBOARD = gql`
+  query UserDashboard($limit: Int) {
+    me {
+      watched(limit: $limit) {
+        id
+        title
+        thumbnails(limit: 1)
+        currentPrice
+        bidsNumber
+      }
+      bidded(limit: $limit) {
+        id
+        title
+        thumbnails(limit: 1)
+        currentPrice
+        bidsNumber
+      }
+      awarded(limit: $limit) {
+        id
+        title
+        thumbnails(limit: 1)
+        currentPrice
+        bidsNumber
+      }
+    }
   }
 `;
 
@@ -262,6 +319,37 @@ export function usePlaceBid(itemId) {
     placeBid,
     bidPlaced,
   };
+}
+
+export function useDashboard() {
+  const { loading, data, error } = useQuery(USER_DASHBOARD, {
+    variables: {
+      limit: DASHBOARD_ITEMS_LIMIT,
+    },
+  });
+
+  let watched = Array(DASHBOARD_ITEMS_LIMIT).fill({});
+  let bidded = Array(DASHBOARD_ITEMS_LIMIT).fill({});
+  let awarded = Array(DASHBOARD_ITEMS_LIMIT).fill({});
+  if (data) {
+    watched = data.me.watched;
+    bidded = data.me.bidded;
+    awarded = data.me.awarded;
+  }
+  return { loading, watched, bidded, awarded, error };
+}
+
+export function useAuctionNotification() {
+  const handleServerNotification = useServerNotification();
+  function onSubscriptionData({ subscriptionData }) {
+    if (subscriptionData && subscriptionData.data) {
+      handleServerNotification(subscriptionData.data.auctionEvent);
+    }
+  }
+
+  useSubscription(NOTIFICATION_SUBSCRIPTION, {
+    onSubscriptionData: onSubscriptionData,
+  });
 }
 
 function parseAmount(amount) {
