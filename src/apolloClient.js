@@ -8,7 +8,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { checkIfShouldShowLogin } from "./api/ErrorHandler";
 import { getMainDefinition } from "@apollo/client/utilities";
 
-const isDev = process.env.NODE_ENV === "development";
+// const isDev = process.env.NODE_ENV === "development";
 const apiHost = "java-auction-server.herokuapp.com";
 // const apiHost = "spyna.register.it";
 const secure = "s";
