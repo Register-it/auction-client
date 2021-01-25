@@ -9,19 +9,22 @@ import { checkIfShouldShowLogin } from "./api/ErrorHandler";
 import { getMainDefinition } from "@apollo/client/utilities";
 
 const isDev = process.env.NODE_ENV === "development";
-const apiHost = isDev ? "localhost:8080" : "java-auction-server.herokuapp.com";
-const secure = isDev ? "" : "s";
+const apiHost = "java-auction-server.herokuapp.com";
+// const apiHost = "spyna.register.it";
+const secure = "s";
 
 const wsLink = new WebSocketLink({
   uri: `ws${secure}://${apiHost}/subscriptions`,
+
   options: {
+    lazy: true,
     reconnect: true,
   },
 });
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: `/graphql`,
+  uri: `http${secure}://${apiHost}/graphql`,
   credentials: "include",
 });
 
