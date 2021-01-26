@@ -117,7 +117,7 @@ export const USER_DASHBOARD = gql`
         currentPrice
         bidsNumber
       }
-      bidded(limit: $limit) {
+      bid(limit: $limit) {
         id
         title
         thumbnails(limit: 1)
@@ -333,7 +333,7 @@ export function useDashboard() {
   let awarded = Array(DASHBOARD_ITEMS_LIMIT).fill({});
   if (data) {
     watched = data.me.watched;
-    bidded = data.me.bidded;
+    bidded = data.me.bid;
     awarded = data.me.awarded;
   }
   return { loading, watched, bidded, awarded, error };

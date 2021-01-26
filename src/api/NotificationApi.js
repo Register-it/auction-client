@@ -56,7 +56,7 @@ export function useServerNotification() {
     switch (type) {
       case "NEW_BID":
         notification.type = "info";
-        notification.title = "Un offerta su un oggetto che segui";
+        notification.title = "Un'offerta su un oggetto che segui";
         break;
       case "BID_EXCEEDED":
         notification.type = "warning";
