@@ -135,6 +135,57 @@ export const USER_DASHBOARD = gql`
   }
 `;
 
+export const GET_WATCHED_ITEMS = gql`
+  query getWatchedItems($page: Int, $size: Int) {
+    watchedItems(page: $page, size: $size) {
+      totalElements
+      current
+      isLast
+      isFirst
+      elements {
+        title
+        id
+        thumbnails(limit: 1)
+        currentPrice
+      }
+    }
+  }
+`;
+
+export const GET_BID_ITEMS = gql`
+  query getBidItems($page: Int, $size: Int) {
+    bidItems(page: $page, size: $size) {
+      totalElements
+      current
+      isLast
+      isFirst
+      elements {
+        title
+        id
+        thumbnails(limit: 1)
+        currentPrice
+      }
+    }
+  }
+`;
+
+export const GET_AWARDED_ITEMS = gql`
+  query getAwardedItems($page: Int, $size: Int) {
+    awardedItems(page: $page, size: $size) {
+      totalElements
+      current
+      isLast
+      isFirst
+      elements {
+        title
+        id
+        thumbnails(limit: 1)
+        currentPrice
+      }
+    }
+  }
+`;
+
 const LIMIT = 15;
 
 export function useSearch(page) {
@@ -350,6 +401,55 @@ export function useAuctionNotification() {
   useSubscription(NOTIFICATION_SUBSCRIPTION, {
     onSubscriptionData: onSubscriptionData,
   });
+}
+
+export const WatchedItemType = {
+  WATCHED_ITEMS: 'watchedItems',
+  BID_ITEMS: 'bidItems',
+  AWARDED_ITEMS: 'awardedItems',
+};
+
+export function useWatchedItems(type, page) {
+  const query = {
+    [WatchedItemType.WATCHED_ITEMS]: GET_WATCHED_ITEMS,
+    [WatchedItemType.BID_ITEMS]: GET_BID_ITEMS,
+    [WatchedItemType.AWARDED_ITEMS]: GET_AWARDED_ITEMS,
+  };
+
+  const { loading, data, error, fetchMore } = useQuery(query[type], {
+    variables: {
+      page,
+      size: LIMIT,
+    },
+  });
+
+  let items = Array(LIMIT).fill({});
+  let pagination = {};
+  if (data) {
+    items = data[type].elements;
+    let { isLast, current } = data[type];
+    pagination = {
+      ...pagination,
+      isLast,
+      current,
+    };
+  }
+  return { loading, items, error, pagination, fetchMore: (page) => {
+    fetchMore({
+      variables: {
+        page,
+        size: LIMIT,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        const elements = prev[type].elements.concat(fetchMoreResult[type].elements);
+        const merged = Object.assign({}, fetchMoreResult[type], { elements });
+        return {
+          [type]: merged
+        };
+      }
+    });
+  }};
 }
 
 function parseAmount(amount) {
