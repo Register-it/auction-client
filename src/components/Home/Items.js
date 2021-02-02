@@ -5,11 +5,11 @@ import ItemPreviewLoader from "./ItemPreviewLoader";
 import Error from "../Error/Error";
 import { Pagination, Skeleton } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
-import { useSearch } from "../../api/AuctionApi";
+import { useGetItems } from "../../api/AuctionApi";
 
 export default function Items({ page }) {
   const history = useHistory();
-  const { loading, items, error, pagination } = useSearch(page);
+  const { loading, items, error, pagination } = useGetItems(page);
   const { resultPerPage, isLast, totalElements, isFirst } = pagination;
 
   function handlePageChange(_, page) {

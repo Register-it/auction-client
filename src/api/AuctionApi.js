@@ -188,7 +188,7 @@ export const GET_AWARDED_ITEMS = gql`
 
 const LIMIT = 15;
 
-export function useSearch(page) {
+export function useGetItems(page) {
   const { loading, data, error } = useQuery(GET_ITEMS, {
     variables: {
       page,
