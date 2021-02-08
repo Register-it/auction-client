@@ -1,13 +1,17 @@
-import { useSearch } from "./getItems";
+import { useGetItems } from "./getItems";
 import { useGetItem } from "./getItem";
 import { useIsItemWatched, useWatchItem } from "./watchItem";
 import { useGetBids } from "./getBids";
-import { useDashboard } from "./userDashboard";
+import {
+  useDashboard,
+  useWatchedItems,
+  WatchedItemType,
+} from "./userDashboard";
 import { usePlaceBid } from "./placeBid";
 import { useAuctionNotification } from "./notifications";
 
 export {
-  useSearch,
+  useGetItems,
   useGetItem,
   useIsItemWatched,
   useGetBids,
@@ -15,4 +19,6 @@ export {
   usePlaceBid,
   useWatchItem,
   useAuctionNotification,
+  useWatchedItems,
+  WatchedItemType,
 };

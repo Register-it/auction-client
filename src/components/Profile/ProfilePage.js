@@ -14,6 +14,7 @@ import WatchedItems from "./WatchedItems";
 import { Route, NavLink as Link } from "react-router-dom";
 import { routes } from "../../routes";
 import UserDashboard from "./UserDashboard";
+import { withHtmlPageMetadata } from "../HtmlPageMetadata";
 
 function TabPanel(props) {
   const { children, route, exact = false,...other } = props;
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ProfilePage() {
+function ProfilePage() {
   const classes = useStyles();
 
   return (
@@ -89,3 +90,8 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+export default withHtmlPageMetadata(
+  "Aste online - Profilo utente",
+  "Puoi comprare tutto quello che vuoi, se hai i soldini"
+)(ProfilePage);

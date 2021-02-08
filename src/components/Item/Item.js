@@ -97,7 +97,6 @@ export default function Item() {
               <Typography variant="subtitle1" color="textSecondary">
                 Scadenza: <AuctionExpiration date={auctionExpiration} />
               </Typography>
-
               <MakeAnOffer
                 price={currentPrice}
                 offers={bidsNumber}
