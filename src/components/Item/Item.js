@@ -16,6 +16,7 @@ import ItemLoading from "./ItemLoading";
 import Error from "../Error/Error";
 import AuctionExpiration from "../AuctionExpiration";
 import WatchItem from "./WatchItem";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,11 +98,16 @@ export default function Item() {
               <Typography variant="subtitle1" color="textSecondary">
                 Scadenza: <AuctionExpiration date={auctionExpiration} />
               </Typography>
-              <MakeAnOffer
-                price={currentPrice}
-                offers={bidsNumber}
-                itemId={id}
-              />
+              {dayjs(auctionExpiration).isBefore(new Date()) && (
+                <h2>Asta scaduta</h2>
+              )}
+              {dayjs(auctionExpiration).isAfter(new Date()) && (
+                <MakeAnOffer
+                  price={currentPrice}
+                  offers={bidsNumber}
+                  itemId={id}
+                />
+              )}
               <WatchItem itemId={id} />
             </CardContent>
           </div>
