@@ -39,8 +39,8 @@ export default function DashboardItems({ items, loading }) {
     return (
       <div className={classes.root}>
         <GridList className={classes.gridList} cols={2.5}>
-          {items.map((item) => (
-            <div style={{ padding: 16 }}>
+          {items.map((_, index) => (
+            <div key={`dashboard-preview-${index}`} style={{ padding: 16 }}>
               <Skeleton animation="wave" width={265} height={180} />
             </div>
           ))}

@@ -7,27 +7,22 @@ export const USER_DASHBOARD = gql`
   query UserDashboard($limit: Int) {
     me {
       watched(limit: $limit) {
-        id
-        title
-        thumbnails(limit: 1)
-        currentPrice
-        bidsNumber
+        ...ItemFragment
       }
       bid(limit: $limit) {
-        id
-        title
-        thumbnails(limit: 1)
-        currentPrice
-        bidsNumber
+       ...ItemFragment
       }
       awarded(limit: $limit) {
-        id
-        title
-        thumbnails(limit: 1)
-        currentPrice
-        bidsNumber
+        ...ItemFragment
       }
     }
+  }
+  fragment ItemFragment on Item {
+    id
+    title
+    thumbnails(limit: 1)
+    currentPrice
+    bidsNumber
   }
 `;
 
