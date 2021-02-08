@@ -8,11 +8,10 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuctionNotification } from "../api/AuctionApi";
 import { useLoadUser, useLogout } from "../api/LoginApi";
-import { resetWsConnection } from "../apolloClient";
 import ButtonWithLoader from "../components/ButtonWithLoader";
 import { routes } from "../routes";
 
