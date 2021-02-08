@@ -13,7 +13,7 @@ const ERROR_CODES = {
 };
 
 const ERROR_CODES_MESSAGES = {
-  UNAUTHORIZED: "Username o password non validi",
+  UNAUTHORIZED: "Devi loggarti per eseguire questa operazione",
   AUCTION_EXPIRED: "L'asta è scaduta",
   HIGHER_BID_EXISTS: "La tua offerta è stata superata",
   INVALID_BID: "Offerta non valida",
