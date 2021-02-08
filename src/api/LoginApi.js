@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { routes } from "../routes";
 import { useHistory, useLocation } from "react-router-dom";
 import { useNotifications } from "./NotificationApi";
+import { resetWsConnection } from "../apolloClient";
 
 export const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
@@ -47,7 +48,7 @@ export function useLogout() {
   const deleteUser = useDeleteStoreValue(Store.LOGGED_USER);
   const { addNotification } = useNotifications();
 
-  const [doLogout, { loading }] = useMutation(LOGOUT, {
+  const [doLogout, { client, loading }] = useMutation(LOGOUT, {
     fetchPolicy: "no-cache",
     onError: () => {
       console.warn("cannot logout on server");
@@ -56,9 +57,11 @@ export function useLogout() {
         type: "warning",
       });
       deleteUser();
+      resetWsConnection();
     },
-    onCompleted: () => {
+    onCompleted: async () => {
       deleteUser();
+      await client.resetStore().catch(() => {});
     },
   });
 

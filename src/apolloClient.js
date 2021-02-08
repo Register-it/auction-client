@@ -61,4 +61,9 @@ const apolloClient = new ApolloClient({
   `,
 });
 
+// Reset the WS connection for it to carry the new JWT.
+export function resetWsConnection() {
+  wsLink.subscriptionClient.unsubscribeAll();
+}
+
 export default apolloClient;

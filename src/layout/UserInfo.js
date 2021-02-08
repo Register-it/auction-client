@@ -8,10 +8,11 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuctionNotification } from "../api/AuctionApi";
 import { useLoadUser, useLogout } from "../api/LoginApi";
+import { resetWsConnection } from "../apolloClient";
 import ButtonWithLoader from "../components/ButtonWithLoader";
 import { routes } from "../routes";
 
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UserInfo() {
   const classes = useStyles();
   const { user, loading } = useLoadUser();
+
   if (loading) {
     return <CircularProgress color="primary" className={classes.progress} />;
   }
